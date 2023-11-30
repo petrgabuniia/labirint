@@ -50,10 +50,6 @@ public class Main
                 {
                     //System.out.println("Lūdzu, ievadiet " + (i + 1) + ". rindas " + (j + 1) + ". kolonnas vērtību (1 - siena, 0 - ceļš)");
                     labirints[i][j] = sc.nextInt();
-                    if(labirints[i][j] != 0 || labirints[i][j] != 1)
-                    {
-                        labirints[i][j] = 0;
-                    }
                 }
             }
         }
