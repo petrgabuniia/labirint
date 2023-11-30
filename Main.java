@@ -128,26 +128,26 @@ public class Main
 
 
 
-        public static void createEdges(boolean[][] labyrinth)
+        public static void createEdges(int[][] labyrinth)
     {
         int rows = labyrinth.length;
         int cols = labyrinth[0].length;
         LabyrinthGraph graph = new LabyrinthGraph();
         for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    if (labyrinth[i][j]) {
+                    if (labyrinth[i][j] == 1) {
                         int vertex = i * cols + j;
 
-                        if (j + 1 < cols && labyrinth[i][j + 1]) {
+                        if (j + 1 < cols && labyrinth[i][j + 1] == 1) {
                             graph.addEdge(vertex, i * cols + (j + 1));
                         }
-                        if (j - 1 >= 0 && labyrinth[i][j - 1]) {
+                        if (j - 1 >= 0 && labyrinth[i][j - 1] == 1) {
                             graph.addEdge(vertex, i * cols + (j - 1));
                         }
-                        if (i + 1 < rows && labyrinth[i + 1][j]) {
+                        if (i + 1 < rows && labyrinth[i + 1][j] == 1) {
                             graph.addEdge(vertex, (i + 1) * cols + j);
                         }
-                        if (i - 1 >= 0 && labyrinth[i - 1][j]) {
+                        if (i - 1 >= 0 && labyrinth[i - 1][j] == 1) {
                             graph.addEdge(vertex, (i - 1) * cols + j);
                         }
                     }
