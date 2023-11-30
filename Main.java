@@ -113,7 +113,7 @@ public class Main
         {
             for (int j = 0; j < labyrinth[i].length; j++)
             {
-                labyrinth[i][j] = (int)(Math.random()*10 % 2);
+                labyrinth[i][j] = (int)(Math.random()*10 % 2); //aizpilda ar 0 vai 1 pēc nejaušības
             }
         }
     }
@@ -123,7 +123,7 @@ public class Main
         System.out.println();
         System.out.println("Results:");
         int newLabyrinth[][] = new int[labyrinth.length+2][labyrinth[0].length+2];
-        for(int i = 0; i < newLabyrinth.length; i++)
+        for(int i = 0; i < newLabyrinth.length; i++) //izveidoju lokālu labirintu ar sienām visur apkārt primajam labirintam, lai nav jāčakarējas ar out-of-bounds kļūdām
         {
             for(int j = 0; j < newLabyrinth[0].length; j++)
             {
@@ -138,19 +138,19 @@ public class Main
             }
         }
 
-        int[] location = new int[6]; // needs comments
-        location[0] = 0;
+        int[] location = new int[6]; //izmantoju trīs punktu sistēmu, lai noteiktu:
+        location[0] = 0; //kur atrodas tagad (pēc jauno koordinātu aprēķināšanas)
         location[1] = 0;
-        location[2] = -1;
+        location[2] = -1; //kur atradās prims jauno koordinātu aprēķināšānas
         location[3] = -1;
-        location[4] = -1;
+        location[4] = -1; //kur atradās ieprekšējā solī
         location[5] = -1;
 
         boolean found = false;
         while(true)
         {
             //System.out.println(location[0] + " " + location[1]);
-            if(newLabyrinth[location[0]+1+1][location[1]+1] == 0 && location[0]+1 < labyrinth.length)
+            if(newLabyrinth[location[0]+1+1][location[1]+1] == 0 && location[0]+1 < labyrinth.length) //meklē nākamo vietu, kur var iet, ūdens stilā protoitārā secībā - uz leju, pa labi, pa kreizi, uz augšu
             {
                 location[0] += 1; //uz leju
             }
@@ -168,7 +168,7 @@ public class Main
             }
             else
             {
-                break;
+                break; //ja ir iesprosprostots sākuma pozīcijā, tad beidz meklēšanu
             }
 
             if(location[0] == labyrinth.length-1 && location[1] == labyrinth[0].length-1)
@@ -180,9 +180,9 @@ public class Main
                 break;
             }
 
-            if(location[0] == location[4] && location[1] == location[5])
+            if(location[0] == location[4] && location[1] == location[5]) //ja pamana, ka atgriezās vietā, kur bija pirms tam, tad atzīmē, ka tur vairs neiet
             {
-                newLabyrinth[location[2]+1][location[3]+1] = 2;
+                newLabyrinth[location[2]+1][location[3]+1] = 2; //tā kā 0 ir ceļš un 1 ir siena, tad aizpildu ar jebko citu, lai vienkārši atzīmētu, ka tur bija ceļš, bet tagad vairs tur nevajag iet
                 location[0] = 0;
                 location[1] = 0;
                 location[2] = -1;
@@ -190,7 +190,7 @@ public class Main
                 location[4] = -1;
                 location[5] = -1;
             }
-            else if(location[2] == -1 && location[3] == -1)
+            else if(location[2] == -1 && location[3] == -1) //aizpildu ieprekšējo
             {
                 location[2] = location[0];
                 location[3] = location[1];
@@ -205,7 +205,7 @@ public class Main
             }
         }
 
-        if(found)
+        if(found) //vēlreiz brute force ceļā izej jau atrasto ceļu
         {
             while(true)
             {
@@ -234,7 +234,7 @@ public class Main
                 }
             }
         }
-        else
+        else //ja neatrod ceļu, izvada atbilstošu paziņojumu
         {
             System.out.println("Exit not found!");
         }
