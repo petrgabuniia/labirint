@@ -66,9 +66,26 @@ public class Main
         }
 
         System.out.println();
-        System.out.println("Lūdzu, izvēlieties algoritmu (1 - ??, 2 - brute force, 3 - ??)");
+        System.out.println("Lūdzu, izvēlieties algoritmu (1 - brute force, 2 - ??, 3 - ??)");
         choice = sc.nextInt();
-        if(choice == 1) // create switch
+        sc.close();
+        switch(choice)
+        {
+            case 1:
+                bruteForce(labirints);
+                break;
+            case 2:
+                //smth
+                break;
+            case 3:
+                //smth
+                break;
+            default:
+                System.out.println("Error!");
+                break;
+        }
+        /*
+        if(choice == 1) // create switch //FINE!
         {
             //smth
         }
@@ -84,7 +101,7 @@ public class Main
         {
             System.out.println("Error!");
         }
-        sc.close();
+        */
     }
 
 
