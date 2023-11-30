@@ -1,5 +1,5 @@
 import java.util.Scanner;
-import java.util.Random;
+// import java.util.Random;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +68,7 @@ public class Main
         System.out.println();
         System.out.println("Lūdzu, izvēlieties algoritmu (1 - ??, 2 - brute force, 3 - ??)");
         choice = sc.nextInt();
-        if(choice == 1)
+        if(choice == 1) // create switch
         {
             //smth
         }
@@ -94,7 +94,7 @@ public class Main
         {
             for (int j = 0; j < labyrinth[i].length; j++)
             {
-                if (labyrinth[i][j] == 0)
+                if (labyrinth[i][j] == 0) //System.out.print(labyrinth[i][j]);
                 {
                     System.out.print("0 "); // Entrance, exit, or open path
                 }
@@ -138,7 +138,7 @@ public class Main
             }
         }
 
-        int[] location = new int[6];
+        int[] location = new int[6]; // needs comments
         location[0] = 0;
         location[1] = 0;
         location[2] = -1;
