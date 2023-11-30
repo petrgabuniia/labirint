@@ -7,5 +7,5 @@ Komanda:
 
 Algoritmi:
 1. ??
-2. Brute Force (?)
+2. Brute Force
 3. ??
