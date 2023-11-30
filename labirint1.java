@@ -1,43 +1,67 @@
 import java.util.Scanner;
 import java.util.Random;
 
-public class labirint1 {
-
-    public static void main(String[] args) {
-        int R, L;
+public class Main
+{
+    public static void main(String[] args)
+    {
+        int rindas, kolonnas;
         Scanner sc = new Scanner(System.in);
-        System.out.println("Lūdzu, ievediet labirinta garumu");
-        R = sc.nextInt();
-        System.out.println("Lūdzu, ievediet labirinta augstumu");
-        L = sc.nextInt();
-        int labirints [][] = new int [R][L];
-        int filling; // 1 - manuāli, 0 - automātiski
+        System.out.print("Lūdzu, ievediet labirinta garumu: ");
+        rindas = sc.nextInt();
+        System.out.print("Lūdzu, ievediet labirinta augstumu: ");
+        kolonnas = sc.nextInt();
+        int labirints [][] = new int [rindas][kolonnas];
+        int choice; // 1 - manuāli, 0 - automātiski
         System.out.println("Vai vēlaties aizpildīt labirintu manuāli? (1 - jā, 0 - nē)");
-        filling = sc.nextInt();
-        if (filling == 1)
+        choice = sc.nextInt();
+        if (choice == 1)
         {
-            for (int i = 0; i < R; i++)
+            System.out.println("Lūdzu, aizpildiet masīvu! (" + rindas + " rindas un " + kolonnas + " kolonnas)");
+            for (int i = 0; i < rindas; i++)
             {
-                for (int j = 0; j < L; j++)
+                for (int j = 0; j < kolonnas; j++)
                 {
-                    System.out.println("Lūdzu, ievadiet " + (i + 1) + ". rindas " + (j + 1) + ". kolonnas vērtību (1 - siena, 0 - ceļš)");
+                    //System.out.println("Lūdzu, ievadiet " + (i + 1) + ". rindas " + (j + 1) + ". kolonnas vērtību (1 - siena, 0 - ceļš)");
                     labirints[i][j] = sc.nextInt();
+                    if(labirints[i][j] != 0 && labirints[i][j] != 1)
+                    {
+                        labirints[i][j] = 0;
+                    }
                 }
             }
         }
         else
         {
-            for (int i = 0; i < R; i++)
-            {
-                for (int j = 0; j < L; j++)
-                {
-                    labirints[i][j] = (int)(Math.random()*10 % 2);
-                }
-            }
+            randomAizpilde(labirints);
         }
         labirints[0][0] = 0;
-        labirints[R-1][L-1] = 0;
-        printLabyrinth(labirints);
+        labirints[rindas-1][kolonnas-1] = 0;
+        if(choice == 0)
+        {
+            System.out.println();
+            printLabyrinth(labirints); //tikai, ja ievada automatiksi
+        }
+
+        System.out.println();
+        System.out.println("Lūdzu, izvēlieties algoritmu (1 - ??, 2 - brute force, 3 - ??)");
+        choice = sc.nextInt();
+        if(choice == 1)
+        {
+            //smth
+        }
+        else if(choice == 2)
+        {
+            bruteForce(labirints);
+        }
+        else if(choice == 3)
+        {
+            //smth
+        }
+        else
+        {
+            System.out.println("Error!");
+        }
     }
 
 
@@ -58,5 +82,21 @@ public class labirint1 {
             }
             System.out.println();
         }
+    }
+
+    public static void randomAizpilde(int[][] labyrinth)
+    {
+        for (int i = 0; i < labyrinth.length; i++)
+        {
+            for (int j = 0; j < labyrinth[i].length; j++)
+            {
+                labyrinth[i][j] = (int)(Math.random()*10 % 2);
+            }
+        }
+    }
+
+    public static void bruteForce(int[][] labyrinth)
+    {
+        //smth
     }
 }
