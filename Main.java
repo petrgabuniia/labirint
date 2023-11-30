@@ -1,5 +1,31 @@
 import java.util.Scanner;
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+
+class LabyrinthGraph {
+    private Map<Integer, List<Integer>> adjacencyList;
+
+    public LabyrinthGraph() {
+        adjacencyList = new HashMap<>();
+    }
+
+    public void addEdge(int vertex1, int vertex2) {
+        adjacencyList.computeIfAbsent(vertex1, k -> new ArrayList<>()).add(vertex2);
+        adjacencyList.computeIfAbsent(vertex2, k -> new ArrayList<>()).add(vertex1);
+    }
+
+    public Map<Integer, List<Integer>> getAdjacencyList() {
+        return adjacencyList;
+    }
+}
+
+
+
 
 public class Main
 {
@@ -98,5 +124,40 @@ public class Main
     public static void bruteForce(int[][] labyrinth)
     {
         //smth
+    }
+
+
+
+        public static void createEdges(boolean[][] labyrinth)
+    {
+        int rows = labyrinth.length;
+        int cols = labyrinth[0].length;
+        LabyrinthGraph graph = new LabyrinthGraph();
+        for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    if (labyrinth[i][j]) {
+                        int vertex = i * cols + j;
+
+                        if (j + 1 < cols && labyrinth[i][j + 1]) {
+                            graph.addEdge(vertex, i * cols + (j + 1));
+                        }
+                        if (j - 1 >= 0 && labyrinth[i][j - 1]) {
+                            graph.addEdge(vertex, i * cols + (j - 1));
+                        }
+                        if (i + 1 < rows && labyrinth[i + 1][j]) {
+                            graph.addEdge(vertex, (i + 1) * cols + j);
+                        }
+                        if (i - 1 >= 0 && labyrinth[i - 1][j]) {
+                            graph.addEdge(vertex, (i - 1) * cols + j);
+                        }
+                    }
+                }
+            }
+        Map<Integer, List<Integer>> adjacencyList = graph.getAdjacencyList();
+        for (Map.Entry<Integer, List<Integer>> entry : adjacencyList.entrySet()) {
+            System.out.println("Vertex " + entry.getKey() + " is connected to vertices " + entry.getValue());
+        }
+
+        
     }
 }
