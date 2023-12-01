@@ -71,6 +71,7 @@ public class Main {
                 //String This = bruteForceTest(labirints);
                 //System.out.println(This);
                 bruteForce(labirints);
+                // bruteForceTest(labirints);
                 break;
             case 2:
                 //smth
@@ -237,7 +238,7 @@ public class Main {
 
                 if(location[0] == labyrinth.length-1 && location[1] == labyrinth[0].length-1)
                 {
-                    System.out.print("(" + location[0] + "," + location[1] + ")");
+                    System.out.print("(" + location[0] + "," + location[1] + ") ");
                     break;
                 }
             }
@@ -258,7 +259,7 @@ public class Main {
         */
     }
 
-    public static String bruteForceTest(int[][] labyrinth)
+    public String bruteForceTest(int[][] labyrinth)
     {
         String resultats = "";
         System.out.println();
@@ -387,31 +388,32 @@ public class Main {
     }
 
 
-        public static void createEdges(int[][] labyrinth)
+    static void createEdges(int[][] labyrinth)
     {
         int rows = labyrinth.length;
         int cols = labyrinth[0].length;
         LabyrinthGraph graph = new LabyrinthGraph();
         for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    if (labyrinth[i][j] == 1) {
-                        int vertex = i * cols + j;
+            for (int j = 0; j < cols; j++) {
+                if (labyrinth[i][j] == 1) {
+                    int vertex = i * cols + j;
 
-                        if (j + 1 < cols && labyrinth[i][j + 1] == 1) {
-                            graph.addEdge(vertex, i * cols + (j + 1));
-                        }
-                        if (j - 1 >= 0 && labyrinth[i][j - 1] == 1) {
-                            graph.addEdge(vertex, i * cols + (j - 1));
-                        }
-                        if (i + 1 < rows && labyrinth[i + 1][j] == 1) {
-                            graph.addEdge(vertex, (i + 1) * cols + j);
-                        }
-                        if (i - 1 >= 0 && labyrinth[i - 1][j] == 1) {
-                            graph.addEdge(vertex, (i - 1) * cols + j);
-                        }
+                    if (j + 1 < cols && labyrinth[i][j + 1] == 1) {
+                        graph.addEdge(vertex, i * cols + (j + 1));
+                    }
+                    if (j - 1 >= 0 && labyrinth[i][j - 1] == 1) {
+                        graph.addEdge(vertex, i * cols + (j - 1));
+                    }
+                    if (i + 1 < rows && labyrinth[i + 1][j] == 1) {
+                        graph.addEdge(vertex, (i + 1) * cols + j);
+                    }
+                    if (i - 1 >= 0 && labyrinth[i - 1][j] == 1) {
+                        graph.addEdge(vertex, (i - 1) * cols + j);
                     }
                 }
             }
+        }
+
         Map<Integer, List<Integer>> adjacencyList = graph.getAdjacencyList();
         for (Map.Entry<Integer, List<Integer>> entry : adjacencyList.entrySet()) {
             System.out.println("Vertex " + entry.getKey() + " is connected to vertices " + entry.getValue());
