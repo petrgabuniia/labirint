@@ -13,7 +13,7 @@ public class MainTest {
             {1, 1, 0}
         };
         
-        assertEquals("(0,0) (0,1) (0,2) (1,2)", main.bruteForceTest(labyrinth)); // expected value, actual value
+        assertEquals("(0,0) (0,1) (0,2) (1,2)", main.bruteForce(labyrinth)); // expected value, actual value
     }
 
     @Test //Tomass
@@ -26,7 +26,7 @@ public class MainTest {
             {1, 1, 1, 0}
         };
         
-        assertEquals("(0,0) (0,1) (0,2) (1,2) (2,2) (2,3) (3,3)", main.bruteForceTest(labyrinth)); 
+        assertEquals("(0,0) (0,1) (0,2) (1,2) (2,2) (2,3) (3,3)", main.bruteForce(labyrinth)); 
     }
 
     @Test //Tomass
@@ -40,7 +40,7 @@ public class MainTest {
             {1, 0, 1, 0}
         };
         
-        assertEquals("Exit not found!", main.bruteForceTest(labyrinth)); 
+        assertEquals("Exit not found!", main.bruteForce(labyrinth)); 
     }
 
 
@@ -56,6 +56,6 @@ public class MainTest {
             {0, 0, 1, 1, 0}
         };
         
-        assertNotEquals("Exit not found!", main.bruteForceTest(labyrinth)); 
+        assertNotEquals("Exit not found!", main.bruteForce(labyrinth)); 
     }
 }
