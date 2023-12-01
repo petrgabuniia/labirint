@@ -1,11 +1,11 @@
 # Labirints
 
 Komanda:
-1. Petr Gabuniia
-2. Valentīns Koposovs
-3. Tomass Kristiāns Šterns
+1. Tomass Kristiāns Šterns
+2. Petr Gabuniia
+3. Valentīns Koposovs
 
 Algoritmi:
 1. ??
-2. Brute Force
-3. ??
+2. Grafi(?)
+3. Brute force
