@@ -39,23 +39,28 @@ public class Main {
         System.out.println("Auto fill maze (1 - yes, 0 - no)? ");
         choice = sc.nextInt();
 
-        if (choice == 0) {
+        if (choice == 0)
+        {
             System.out.println("Input maze! (" + rindas + " rows un " + kolonnas + " columns)");
-            for (int i = 0; i < rindas; i++) {
-                for (int j = 0; j < kolonnas; j++) {
+            for (int i = 0; i < rindas; i++)
+            {
+                for (int j = 0; j < kolonnas; j++)
+                {
                     //System.out.println("Lūdzu, ievadiet " + (i + 1) + ". rindas " + (j + 1) + ". kolonnas vērtību (1 - siena, 0 - ceļš)");
                     labirints[i][j] = sc.nextInt();
                 }
             }
         }
-        else {
+        else
+        {
             randomAizpilde(labirints);
         }
 
         labirints[0][0] = 0;
         labirints[rindas-1][kolonnas-1] = 0;
 
-        if(choice == 1) {
+        if(choice == 1)
+        {
             System.out.println();
             printLabyrinth(labirints); //tikai, ja ievada automatiksi
         }
@@ -68,47 +73,30 @@ public class Main {
         switch(choice)
         {
             case 1:
-                //String This = bruteForceTest(labirints);
-                //System.out.println(This);
-                bruteForce(labirints);
-                // bruteForceTest(labirints);
+                String resultPath = bruteForce(labirints);
+                System.out.println(resultPath);
                 break;
             case 2:
                 //smth
                 break;
             case 3:
                 String path = followRightHandRule(labirints);
-                System.out.println("Results: ");
+                System.out.println("Results:");
                 System.out.println(path);
                 break;
             default:
                 System.out.println("Error!");
                 break;
         }
-        /*
-        if(choice == 1) // create switch //FINE!
-        {
-            //smth
-        }
-        else if(choice == 2)
-        {
-            bruteForce(labirints);
-        }
-        else if(choice == 3)
-        {
-            //smth
-        }
-        else
-        {
-            System.out.println("Error!");
-        }
-        */
     }
 
 
-    public static void printLabyrinth(int[][] labyrinth) {
-        for (int i = 0; i < labyrinth.length; i++) {
-            for (int j = 0; j < labyrinth[i].length; j++) {
+    public static void printLabyrinth(int[][] labyrinth)
+    {
+        for (int i = 0; i < labyrinth.length; i++)
+        {
+            for (int j = 0; j < labyrinth[i].length; j++)
+            {
                 if (labyrinth[i][j] == 0) //System.out.print(labyrinth[i][j]);
                 {
                     System.out.print("0 "); // Entrance, exit, or open path
@@ -122,9 +110,12 @@ public class Main {
         }
     }
 
-    public static void randomAizpilde(int[][] labyrinth) {
-        for (int i = 0; i < labyrinth.length; i++) {
-            for (int j = 0; j < labyrinth[i].length; j++) {
+    public static void randomAizpilde(int[][] labyrinth)
+    {
+        for (int i = 0; i < labyrinth.length; i++)
+        {
+            for (int j = 0; j < labyrinth[i].length; j++)
+            {
                 labyrinth[i][j] = (int)(Math.random()*10 % 2); //aizpilda ar 0 vai 1 pēc nejaušības
             }
         }
@@ -226,140 +217,9 @@ public class Main {
         return path;
     }
 
-    public static void bruteForce(int[][] labyrinth) {
-        System.out.println();
-        System.out.println("Results:");
-        int newLabyrinth[][] = new int[labyrinth.length+2][labyrinth[0].length+2];
-        for(int i = 0; i < newLabyrinth.length; i++) //izveidoju lokālu labirintu ar sienām visur apkārt primajam labirintam, lai nav jāčakarējas ar out-of-bounds kļūdām
-        {
-            for(int j = 0; j < newLabyrinth[0].length; j++)
-            {
-                newLabyrinth[i][j] = 1;
-            }
-        }
-        for(int i = 1; i < newLabyrinth.length-1; i++)
-        {
-            for(int j = 1; j < newLabyrinth[0].length-1; j++)
-            {
-                newLabyrinth[i][j] = labyrinth[i-1][j-1];
-            }
-        }
-
-        int[] location = new int[6]; //izmantoju trīs punktu sistēmu, lai noteiktu:
-        location[0] = 0; //kur atrodas tagad (pēc jauno koordinātu aprēķināšanas)
-        location[1] = 0;
-        location[2] = -1; //kur atradās prims jauno koordinātu aprēķināšānas
-        location[3] = -1;
-        location[4] = -1; //kur atradās ieprekšējā solī
-        location[5] = -1;
-
-        boolean found = false;
-        while(true)
-        {
-            //System.out.println(location[0] + " " + location[1]);
-            if(newLabyrinth[location[0]+1+1][location[1]+1] == 0 && location[0]+1 < labyrinth.length) //meklē nākamo vietu, kur var iet, ūdens stilā protoitārā secībā - uz leju, pa labi, pa kreizi, uz augšu
-            {
-                location[0] += 1; //uz leju
-            }
-            else if(newLabyrinth[location[0]+1][location[1]+1+1] == 0 && location[1]+1 < labyrinth[location[0]].length)
-            {
-                location[1] += 1; //pa labi
-            }
-            else if(newLabyrinth[location[0]+1][location[1]-1+1] == 0 && location[1]-1 < labyrinth[location[0]].length)
-            {
-                location[1] -= 1; //pa kreisi
-            }
-            else if(newLabyrinth[location[0]-1+1][location[1]+1] == 0 && location[0]-1 < labyrinth.length)
-            {
-                location[0] -= 1; //uz augšu
-            }
-            else
-            {
-                break; //ja ir iesprosprostots sākuma pozīcijā, tad beidz meklēšanu
-            }
-
-            if(location[0] == labyrinth.length-1 && location[1] == labyrinth[0].length-1)
-            {
-                //System.out.println("Congrats!");
-                found = true;
-                location[0] = 0;
-                location[1] = 0;
-                break;
-            }
-
-            if(location[0] == location[4] && location[1] == location[5]) //ja pamana, ka atgriezās vietā, kur bija pirms tam, tad atzīmē, ka tur vairs neiet
-            {
-                newLabyrinth[location[2]+1][location[3]+1] = 2; //tā kā 0 ir ceļš un 1 ir siena, tad aizpildu ar jebko citu, lai vienkārši atzīmētu, ka tur bija ceļš, bet tagad vairs tur nevajag iet
-                location[0] = 0;
-                location[1] = 0;
-                location[2] = -1;
-                location[3] = -1;
-                location[4] = -1;
-                location[5] = -1;
-            }
-            else if(location[2] == -1 && location[3] == -1) //aizpildu ieprekšējo
-            {
-                location[2] = location[0];
-                location[3] = location[1];
-            }
-            else
-            {
-                location[4] = location[2];
-                location[5] = location[3];
-
-                location[2] = location[0];
-                location[3] = location[1];
-            }
-        }
-
-        if(found) //vēlreiz brute force ceļā izej jau atrasto ceļu
-        {
-            while(true)
-            {
-                System.out.print("(" + location[0] + "," + location[1] + ") ");
-                if(newLabyrinth[location[0]+1+1][location[1]+1] == 0 && location[0]+1 < labyrinth.length)
-                {
-                    location[0] += 1; //uz leju
-                }
-                else if(newLabyrinth[location[0]+1][location[1]+1+1] == 0 && location[1]+1 < labyrinth[location[0]].length)
-                {
-                    location[1] += 1; //pa labi
-                }
-                else if(newLabyrinth[location[0]+1][location[1]-1+1] == 0 && location[1]-1 < labyrinth[location[0]].length)
-                {
-                    location[1] -= 1; //pa kreisi
-                }
-                else if(newLabyrinth[location[0]-1+1][location[1]+1] == 0 && location[0]-1 < labyrinth.length)
-                {
-                    location[0] -= 1; //uz augšu
-                }
-
-                if(location[0] == labyrinth.length-1 && location[1] == labyrinth[0].length-1)
-                {
-                    System.out.print("(" + location[0] + "," + location[1] + ") ");
-                    break;
-                }
-            }
-        }
-        else //ja neatrod ceļu, izvada atbilstošu paziņojumu
-        {
-            System.out.println("Exit not found!");
-        }
-        /*
-        for(int i = 1; i < newLabyrinth.length-1; i++)
-        {
-            for(int j = 1; j < newLabyrinth[0].length-1; j++)
-            {
-                System.out.print(newLabyrinth[i][j] + " ");
-            }
-            System.out.println();
-        }
-        */
-    }
-
-    public String bruteForceTest(int[][] labyrinth)
+    public static String bruteForce(int[][] labyrinth)
     {
-        String resultats = "";
+        String resultPath = "";
         System.out.println();
         System.out.println("Results:");
         int newLabyrinth[][] = new int[labyrinth.length+2][labyrinth[0].length+2];
@@ -378,6 +238,9 @@ public class Main {
             }
         }
 
+        ArrayList<Integer> path = new ArrayList<Integer>();
+        int counter = 0;
+
         int[] location = new int[6];
         location[0] = 0;
         location[1] = 0;
@@ -386,105 +249,226 @@ public class Main {
         location[4] = -1;
         location[5] = -1;
 
-        boolean found = false;
+        boolean found = false, wasContinue = false;
+        String lastMove = "";
         while(true)
         {
-            //System.out.println(location[0] + " " + location[1]);
-            if(newLabyrinth[location[0]+1+1][location[1]+1] == 0 && location[0]+1 < labyrinth.length)
+            if(!wasContinue)
             {
-                location[0] += 1; //uz leju
-            }
-            else if(newLabyrinth[location[0]+1][location[1]+1+1] == 0 && location[1]+1 < labyrinth[location[0]].length)
-            {
-                location[1] += 1; //pa labi
-            }
-            else if(newLabyrinth[location[0]+1][location[1]-1+1] == 0 && location[1]-1 < labyrinth[location[0]].length)
-            {
-                location[1] -= 1; //pa kreisi
-            }
-            else if(newLabyrinth[location[0]-1+1][location[1]+1] == 0 && location[0]-1 < labyrinth.length)
-            {
-                location[0] -= 1; //uz augšu
+                counter += 2;
+                path.add(location[0]);
+                path.add(location[1]);
             }
             else
             {
-                break;
+                wasContinue = false;
+            }
+
+            if(lastMove.equals("left") && newLabyrinth[location[0]+1][location[1]-1+1] == 0) //left 0
+            {
+                location[1] -= 1; //pa kreisi
+            }
+            else if(lastMove.equals("left") && newLabyrinth[location[0]+1][location[1]-1+1] != 0) //left 1
+            {
+                lastMove = "wasLeft";
+                wasContinue = true;
+                continue;
+            }
+            else if(lastMove.equals("up") && newLabyrinth[location[0]-1+1][location[1]+1] == 0) //up 0
+            {
+                location[0] -= 1; //uz augšu
+            }
+            else if(lastMove.equals("up") && newLabyrinth[location[0]-1+1][location[1]+1] != 0) //up 1
+            {
+                lastMove = "wasUp";
+                wasContinue = true;
+                continue;
+            }
+            else
+            {
+                if(newLabyrinth[location[0]+1+1][location[1]+1] == 0) //down 0
+                {
+                    if(lastMove.equals("wasUp"))
+                    {
+                        if(newLabyrinth[location[0]+1][location[1]+1+1] == 0) //right 0
+                        {
+                            location[1] += 1; //pa labi
+                            lastMove = "";
+                        }
+                        else if(newLabyrinth[location[0]+1][location[1]-1+1] == 0) //left 0
+                        {
+                            location[1] -= 1; //pa kreisi
+                            lastMove = "left";
+                        }
+                        else
+                        {
+                            location[0] += 1; //uz leju
+                            lastMove = "";
+                        }
+                    }
+                    else
+                    {
+                        for(int i = 0; i < counter; i += 2)
+                        {
+                            if(location[0]+1 == path.get(i) && location[1] == path.get(i+1)) //down was
+                            {
+                                wasContinue = true;
+                                break;
+                            }
+                        }
+                        if(wasContinue)
+                        {
+                            if(newLabyrinth[location[0]-1+1][location[1]+1] == 0) //up 0
+                            {
+                                location[0] -= 1; //uz augšu
+                                lastMove = "up";
+                            }
+                            else
+                            {
+                                location[0] += 1; //uz leju
+                                lastMove = "";
+                            }
+                            wasContinue = false;
+                        }
+                        else
+                        {
+                            location[0] += 1; //uz leju
+                            lastMove = "";
+                        }
+                    }
+                }
+                else if(newLabyrinth[location[0]+1][location[1]+1+1] == 0) //right 0
+                {
+                    if(lastMove.equals("wasLeft"))
+                    {
+                        if(newLabyrinth[location[0]-1+1][location[1]+1] == 0) //up 0
+                        {
+                            location[0] -= 1; //uz augšu
+                            lastMove = "up";
+                        }
+                        else
+                        {
+                            location[1] += 1; //pa labi
+                            lastMove = "";
+                        }
+                    }
+                    else
+                    {
+                        location[1] += 1; //pa labi
+                        lastMove = "";
+                    }
+                }
+                else if(newLabyrinth[location[0]+1][location[1]-1+1] == 0) //left 0
+                {
+                    if(location[0] == location[4] && location[1]-1 == location[5] && newLabyrinth[location[0]-1+1][location[1]+1] == 0) //up 0
+                    {
+                        location[0] -= 1; //uz augšu
+                        lastMove = "up";
+                    }
+                    else
+                    {
+                        location[1] -= 1; //pa kreisi
+                        lastMove = "left";
+                    }
+                }
+                else if(newLabyrinth[location[0]-1+1][location[1]+1] == 0) //up 0
+                {
+                    location[0] -= 1; //uz augšu
+                    lastMove = "up";
+                }
+                else
+                {
+                    break;
+                }
             }
 
             if(location[0] == labyrinth.length-1 && location[1] == labyrinth[0].length-1)
             {
-                //System.out.println("Congrats!");
                 found = true;
-                location[0] = 0;
-                location[1] = 0;
                 break;
             }
 
-            if(location[0] == location[4] && location[1] == location[5])
+            for(int i = 0; i < counter; i += 2)
             {
-                newLabyrinth[location[2]+1][location[3]+1] = 2;
-                location[0] = 0;
-                location[1] = 0;
-                location[2] = -1;
-                location[3] = -1;
-                location[4] = -1;
-                location[5] = -1;
-            }
-            else if(location[2] == -1 && location[3] == -1)
-            {
-                location[2] = location[0];
-                location[3] = location[1];
-            }
-            else
-            {
-                location[4] = location[2];
-                location[5] = location[3];
-
-                location[2] = location[0];
-                location[3] = location[1];
-            }
-        }
-
-
-        if(found)
-        {
-            while(true)
-            {
-                resultats += "(" + location[0] + "," + location[1] + ") ";
-                //System.out.print("(" + location[0] + "," + location[1] + ") ");
-                if(newLabyrinth[location[0]+1+1][location[1]+1] == 0 && location[0]+1 < labyrinth.length)
+                if(location[0] == path.get(i) && location[1] == path.get(i+1))
                 {
-                    location[0] += 1; //uz leju
-                }
-                else if(newLabyrinth[location[0]+1][location[1]+1+1] == 0 && location[1]+1 < labyrinth[location[0]].length)
-                {
-                    location[1] += 1; //pa labi
-                }
-                else if(newLabyrinth[location[0]+1][location[1]-1+1] == 0 && location[1]-1 < labyrinth[location[0]].length)
-                {
-                    location[1] -= 1; //pa kreisi
-                }
-                else if(newLabyrinth[location[0]-1+1][location[1]+1] == 0 && location[0]-1 < labyrinth.length)
-                {
-                    location[0] -= 1; //uz augšu
-                }
-
-                if(location[0] == labyrinth.length-1 && location[1] == labyrinth[0].length-1)
-                {
-                    resultats += "(" + location[0] + "," + location[1] + ")";
-                    //System.out.print("(" + location[0] + "," + location[1] + ")");
+                    newLabyrinth[location[2]+1][location[3]+1] = 2;
+                    location[0] = 0;
+                    location[1] = 0;
+                    location[2] = -1;
+                    location[3] = -1;
+                    location[4] = -1;
+                    location[5] = -1;
+                    lastMove = "";
+                    path.clear();
+                    counter = 0;
+                    wasContinue = true;
                     break;
                 }
             }
+
+            if(!wasContinue)
+            {
+                if(location[0] == location[4] && location[1] == location[5])
+                {
+                    newLabyrinth[location[2]+1][location[3]+1] = 2;
+                    location[0] = 0;
+                    location[1] = 0;
+                    location[2] = -1;
+                    location[3] = -1;
+                    location[4] = -1;
+                    location[5] = -1;
+                    lastMove = "";
+                    path.clear();
+                    counter = 0;
+                }
+                else if(location[2] == -1 && location[3] == -1)
+                {
+                    location[2] = location[0];
+                    location[3] = location[1];
+                }
+                else
+                {
+                    location[4] = location[2];
+                    location[5] = location[3];
+
+                    location[2] = location[0];
+                    location[3] = location[1];
+                }
+            }
+            else
+            {
+                wasContinue = false;
+            }
+        }
+
+        if(found)
+        {
+            //System.out.println("Congrats!");
+            for(int i = 0; i < counter; i += 2)
+            {
+                resultPath += "(" + path.get(i) + "," + path.get(i+1) + ") ";
+            }
+            resultPath += "(" + (labyrinth.length - 1) + "," + (labyrinth[0].length - 1) + ")";
+            return resultPath;
         }
         else
         {
-            resultats = "Exit not found!";
             //System.out.println("Exit not found!");
+            resultPath = "Exit not found!";
+            return resultPath;
         }
-        return resultats;
+        /*
+        for(int i = 1; i < newLabyrinth.length-1; i++)
+        {
+            for(int j = 1; j < newLabyrinth[0].length-1; j++)
+            {
+                System.out.print(newLabyrinth[i][j] + " ");
+            }
+            System.out.println();
+        }
+        */
     }
-
 
     static void createEdges(int[][] labyrinth)
     {
