@@ -1,11 +1,11 @@
+// package dip107;
+
 import java.util.Scanner;
 // import java.util.Random;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
 
 class LabyrinthGraph {
     private Map<Integer, List<Integer>> adjacencyList;
@@ -24,53 +24,48 @@ class LabyrinthGraph {
     }
 }
 
-
-
-
-public class Main
-{
-    public static void main(String[] args)
-    {
+public class Main {
+    public static void main(String[] args) {
         int rindas, kolonnas;
+
         Scanner sc = new Scanner(System.in);
-        System.out.print("Lūdzu, ievediet labirinta garumu: ");
+        System.out.print("Row count: ");
         rindas = sc.nextInt();
-        System.out.print("Lūdzu, ievediet labirinta augstumu: ");
+        System.out.print("Column count: ");
         kolonnas = sc.nextInt();
+
         int labirints [][] = new int [rindas][kolonnas];
         int choice; // 1 - manuāli, 0 - automātiski
-        System.out.println("Vai vēlaties aizpildīt labirintu manuāli? (1 - jā, 0 - nē)");
+        System.out.println("Auto fill maze (1 - yes, 0 - no)? ");
         choice = sc.nextInt();
-        if (choice == 1)
-        {
-            System.out.println("Lūdzu, aizpildiet masīvu! (" + rindas + " rindas un " + kolonnas + " kolonnas)");
-            for (int i = 0; i < rindas; i++)
-            {
-                for (int j = 0; j < kolonnas; j++)
-                {
+
+        if (choice == 0) {
+            System.out.println("Input maze! (" + rindas + " rows un " + kolonnas + " columns)");
+            for (int i = 0; i < rindas; i++) {
+                for (int j = 0; j < kolonnas; j++) {
                     //System.out.println("Lūdzu, ievadiet " + (i + 1) + ". rindas " + (j + 1) + ". kolonnas vērtību (1 - siena, 0 - ceļš)");
                     labirints[i][j] = sc.nextInt();
                 }
             }
         }
-        else
-        {
+        else {
             randomAizpilde(labirints);
         }
+
         labirints[0][0] = 0;
         labirints[rindas-1][kolonnas-1] = 0;
-        if(choice == 0)
-        {
+
+        if(choice == 1) {
             System.out.println();
             printLabyrinth(labirints); //tikai, ja ievada automatiksi
         }
 
         System.out.println();
-        System.out.println("Lūdzu, izvēlieties algoritmu (1 - brute force, 2 - ??, 3 - ??)");
+        System.out.println("Method number (1 - brute force, 2 - ??, 3 - ??): ");
         choice = sc.nextInt();
         sc.close();
-        switch(choice)
-        {
+
+        switch(choice) {
             case 1:
                 bruteForce(labirints);
                 break;
@@ -105,12 +100,9 @@ public class Main
     }
 
 
-    public static void printLabyrinth(int[][] labyrinth)
-    {
-        for (int i = 0; i < labyrinth.length; i++)
-        {
-            for (int j = 0; j < labyrinth[i].length; j++)
-            {
+    public static void printLabyrinth(int[][] labyrinth) {
+        for (int i = 0; i < labyrinth.length; i++) {
+            for (int j = 0; j < labyrinth[i].length; j++) {
                 if (labyrinth[i][j] == 0) //System.out.print(labyrinth[i][j]);
                 {
                     System.out.print("0 "); // Entrance, exit, or open path
@@ -124,19 +116,15 @@ public class Main
         }
     }
 
-    public static void randomAizpilde(int[][] labyrinth)
-    {
-        for (int i = 0; i < labyrinth.length; i++)
-        {
-            for (int j = 0; j < labyrinth[i].length; j++)
-            {
+    public static void randomAizpilde(int[][] labyrinth) {
+        for (int i = 0; i < labyrinth.length; i++) {
+            for (int j = 0; j < labyrinth[i].length; j++) {
                 labyrinth[i][j] = (int)(Math.random()*10 % 2); //aizpilda ar 0 vai 1 pēc nejaušības
             }
         }
     }
 
-    public static void bruteForce(int[][] labyrinth)
-    {
+    public static void bruteForce(int[][] labyrinth) {
         System.out.println();
         System.out.println("Results:");
         int newLabyrinth[][] = new int[labyrinth.length+2][labyrinth[0].length+2];
