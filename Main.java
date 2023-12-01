@@ -111,11 +111,11 @@ public class Main {
             for (int j = 0; j < labyrinth[i].length; j++) {
                 if (labyrinth[i][j] == 0) //System.out.print(labyrinth[i][j]);
                 {
-                    System.out.print("0"); // Entrance, exit, or open path
+                    System.out.print("0 "); // Entrance, exit, or open path
                 }
                 else
                 {
-                    System.out.print("1"); // Wall
+                    System.out.print("1 "); // Wall
                 }
             }
             System.out.println();
