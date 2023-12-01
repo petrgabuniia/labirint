@@ -237,7 +237,7 @@ public class Main {
 
                 if(location[0] == labyrinth.length-1 && location[1] == labyrinth[0].length-1)
                 {
-                    System.out.print("(" + location[0] + "," + location[1] + ") ");
+                    System.out.print("(" + location[0] + "," + location[1] + ")");
                     break;
                 }
             }
