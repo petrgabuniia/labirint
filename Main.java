@@ -61,7 +61,7 @@ public class Main {
         }
 
         System.out.println();
-        System.out.println("Method number (1 - brute force, 2 - ??, 3 - ??): ");
+        System.out.println("Method number (1 - brute force, 2 - ??, 3 - right hand rule): ");
         choice = sc.nextInt();
         sc.close();
 
@@ -77,7 +77,9 @@ public class Main {
                 //smth
                 break;
             case 3:
-                //smth
+                String path = followRightHandRule(labirints);
+                System.out.println("Results: ");
+                System.out.println(path);
                 break;
             default:
                 System.out.println("Error!");
@@ -109,11 +111,11 @@ public class Main {
             for (int j = 0; j < labyrinth[i].length; j++) {
                 if (labyrinth[i][j] == 0) //System.out.print(labyrinth[i][j]);
                 {
-                    System.out.print("0 "); // Entrance, exit, or open path
+                    System.out.print("0"); // Entrance, exit, or open path
                 }
                 else
                 {
-                    System.out.print("1 "); // Wall
+                    System.out.print("1"); // Wall
                 }
             }
             System.out.println();
@@ -126,6 +128,102 @@ public class Main {
                 labyrinth[i][j] = (int)(Math.random()*10 % 2); //aizpilda ar 0 vai 1 pēc nejaušības
             }
         }
+    }
+
+    public static String followRightHandRule(int[][] labyrinth) {
+        String path = "";
+        int newLabyrinth[][] = new int[labyrinth.length+2][labyrinth[0].length+2];
+
+        for(int i = 0; i < newLabyrinth.length; i++) {
+            for(int j = 0; j < newLabyrinth[0].length; j++) {
+                if (i == 0 || j == 0 || i == newLabyrinth.length-1 || j == newLabyrinth[0].length-1) {
+                    newLabyrinth[i][j] = 1;
+                }
+                else {
+                    newLabyrinth[i][j] = labyrinth[i-1][j-1];
+                }
+            }
+        }
+
+        int[] location = new int[2];
+        location[0] = 1;
+        location[1] = 1;
+
+        int[][] directions = {
+            {1, 0}, // Down // check left
+            {0, 1}, // Right // check down
+            {-1, 0}, // Up // check right
+            {0, -1}, // Left // check up
+        };
+        int mode = 0;
+        if (newLabyrinth[2][1] == 1){
+            mode = 1;
+        }
+
+        int counter = 0;
+
+        while (counter < 2) {
+            int currentX = location[0];
+            int currentY = location[1];
+
+            // Check if the current position is the exit
+            if (currentX == newLabyrinth.length - 2 && currentY == newLabyrinth[0].length - 2) {
+                path = path + "(" + (currentX-1) + "," + (currentY-1) + ") ";
+                break;
+            }
+
+            if (currentX == 1 && currentY == 1) {
+                counter++;
+                if (counter == 2) {
+                    path = "Exit not found!";
+                    break;
+                }
+            }
+
+            if(mode == 0) {
+                if (newLabyrinth[currentX + directions[3][0]][currentY + directions[3][1]] == 0) {
+                    location[0] += directions[3][0];
+                    location[1] += directions[3][1];
+                    path = path + "(" + (currentX-1) + "," + (currentY-1) + ") ";
+                    mode = 3;
+                }
+                else if(newLabyrinth[currentX + directions[mode][0]][currentY + directions[mode][1]] == 0) {
+                    location[0] += directions[mode][0];
+                    location[1] += directions[mode][1];
+                    path = path + "(" + (currentX-1) + "," + (currentY-1) + ") ";
+                }
+                else{
+                    mode = (mode + 1)%4;
+                }
+            }
+            else {
+                if (newLabyrinth[currentX + directions[mode-1][0]][currentY + directions[mode-1][1]] == 0) {
+                    location[0] += directions[mode-1][0];
+                    location[1] += directions[mode-1][1];
+                    path = path + "(" + (currentX-1) + "," + (currentY-1) + ") ";
+                    mode -= 1;
+                }
+                else if(newLabyrinth[currentX + directions[mode][0]][currentY + directions[mode][1]] == 0) {
+                    location[0] += directions[mode][0];
+                    location[1] += directions[mode][1];
+                    path = path + "(" + (currentX-1) + "," + (currentY-1) + ") ";
+                }
+                else{
+                    mode = (mode + 1)%4;
+                }
+            }
+            
+        }
+
+        // for (int i = 0; i < newLabyrinth.length; i++) {
+        //     for (int j = 0; j < newLabyrinth[0].length; j++) {
+        //         System.out.print(newLabyrinth[i][j] + " ");
+        //     }
+        //     System.out.println();
+        // }
+
+
+        return path;
     }
 
     public static void bruteForce(int[][] labyrinth) {
