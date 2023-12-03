@@ -35,7 +35,7 @@ public class Main {
         kolonnas = sc.nextInt();
 
         int labirints [][] = new int [rindas][kolonnas];
-        int choice; // 1 - manuāli, 0 - automātiski
+        int choice; // 1 - automātiski, 0 - manuāli
         System.out.println("Auto fill maze (1 - yes, 0 - no)? ");
         choice = sc.nextInt();
 
