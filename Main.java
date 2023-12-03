@@ -258,6 +258,7 @@ public class Main {
                 counter += 2;
                 path.add(location[0]);
                 path.add(location[1]);
+                //System.out.println(path);
             }
             else
             {
@@ -292,8 +293,26 @@ public class Main {
                     {
                         if(newLabyrinth[location[0]+1][location[1]+1+1] == 0) //right 0
                         {
-                            location[1] += 1; //pa labi
-                            lastMove = "";
+                            for(int i = 0; i < counter; i += 2)
+                            {
+                                if(location[0] == path.get(i) && location[1]+1 == path.get(i + 1) && newLabyrinth[location[0]+1][location[1]-1+1] == 0) //left 0, right was
+                                {
+                                    location[1] -= 1; //pa kreisi
+                                    lastMove = "left";
+                                    wasContinue = true;
+                                    break;
+                                }
+                            }
+
+                            if(!wasContinue)
+                            {
+                                location[1] += 1; //pa labi
+                                lastMove = "";
+                            }
+                            else
+                            {
+                                wasContinue = false;
+                            }
                         }
                         else if(newLabyrinth[location[0]+1][location[1]-1+1] == 0) //left 0
                         {
@@ -354,8 +373,26 @@ public class Main {
                     }
                     else
                     {
-                        location[1] += 1; //pa labi
-                        lastMove = "";
+                        for(int i = 0; i < counter; i += 2)
+                        {
+                            if(location[0] == path.get(i) && location[1]+1 == path.get(i + 1) && newLabyrinth[location[0]+1][location[1]-1+1] == 0) //left 0, right was
+                            {
+                                location[1] -= 1; //pa kreisi
+                                lastMove = "left";
+                                wasContinue = true;
+                                break;
+                            }
+                        }
+
+                        if(!wasContinue)
+                        {
+                            location[1] += 1; //pa labi
+                            lastMove = "";
+                        }
+                        else
+                        {
+                            wasContinue = false;
+                        }
                     }
                 }
                 else if(newLabyrinth[location[0]+1][location[1]-1+1] == 0) //left 0
@@ -450,13 +487,11 @@ public class Main {
                 resultPath += "(" + path.get(i) + "," + path.get(i+1) + ") ";
             }
             resultPath += "(" + (labyrinth.length - 1) + "," + (labyrinth[0].length - 1) + ")";
-            return resultPath;
         }
         else
         {
             //System.out.println("Exit not found!");
             resultPath = "Exit not found!";
-            return resultPath;
         }
         /*
         for(int i = 1; i < newLabyrinth.length-1; i++)
@@ -468,6 +503,7 @@ public class Main {
             System.out.println();
         }
         */
+        return resultPath;
     }
 
     static void createEdges(int[][] labyrinth)
