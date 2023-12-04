@@ -1,28 +1,29 @@
-names = ["10x10_multiRoad", "20x20_multiNo","30x30_oneRoad"]
+names = [] #names of the files to be edited
 
 for name in names:
-    file = open("txtFiles/" + name + ".txt", "r")
-    readFile = file.read()
-    list = readFile.replace('\n', ' ').split(" ")
-    line = ""
+    data = []
+    with open("test_labyrinths/" + name + ".txt", "r") as file:
+        for line in file:
+            line = line.rstrip()
+            symbols = []
+            symbols.append("{")
+            for char in line:
+                if char == "0" or char == "1":
+                    symbols.append(char)
+                else:
+                    symbols.append(", ")
+            symbols.append("},\n")
+            data.append(symbols)
 
-    number = int(name[0:2])
+            print(data)
 
-    for i in range(number):
-        line += "{"
-        for j in range(number):
-            line += str(list[i*10+j]) + ", "
-        line += "},\n"
-    file.close()
-    file = open("txtFiles/" + name + "NEW.txt", "w")
+        
+    with open(name + "NEW.txt", "w") as file:                
+        file.write("public void methodName() {\n")
+        file.write("    int[][] labyrinth = {\n")
+        for line in data:
+            for char in line:
+                file.write(str(char))
             
-    file.write("public void methodName() {\n")
-    file.write("    int[][] labyrinth = {\n")
-
-    lines = line.split("\n")
-
-    for data in lines:
-        file.write("        ")
-        file.write(data)
-        file.write("\n")
-    file.write("    };")
+        file.write("};\n")
+        file.write("}")
