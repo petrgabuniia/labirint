@@ -6,6 +6,6 @@ Komanda:
 3. Valentīns Koposovs
 
 Algoritmi:
-1. ??
-2. Grafi(?)
+1. Follow right hand rule
+2. Grafi
 3. Brute force
