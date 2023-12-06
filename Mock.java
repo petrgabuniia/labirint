@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class mock {
+public class Mock {
 
     private static class LabyrinthGraph {
         private Map<Integer, Set<VertexInfo>> adjacencyList;
@@ -26,11 +26,26 @@ public class mock {
 
     public static void main(String[] args) {
         int[][] labyrinth = {
-                {1, 0, 1, 1, 1},
-                {1, 0, 1, 0, 1},
-                {1, 0, 1, 0, 1},
-                {1, 0, 1, 1, 0},
-                {1, 1, 1, 0, 1}
+            {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0},
+            {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+            {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0},
+            {0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0},
+            {0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0},
+            {0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0},
+            {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0},
+            {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+            {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0},
+            {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1},
+            {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
         };
 
         findShortestPath(labyrinth);
@@ -45,14 +60,14 @@ public class mock {
         // Add edges between adjacent cells
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (labyrinth[i][j] == 1) {
-                    if (j + 1 < cols && labyrinth[i][j + 1] == 1) {
+                if (labyrinth[i][j] == 0) {
+                    if (j + 1 < cols && labyrinth[i][j + 1] == 0) {
                         int vertex1 = i * cols + j;
                         int vertex2 = i * cols + (j + 1);
                         graph.addEdge(vertex1, vertex2, 1);
                         graph.addEdge(vertex2, vertex1, 1);
                     }
-                    if (i + 1 < rows && labyrinth[i + 1][j] == 1) {
+                    if (i + 1 < rows && labyrinth[i + 1][j] == 0) {
                         int vertex1 = i * cols + j;
                         int vertex2 = (i + 1) * cols + j;
                         graph.addEdge(vertex1, vertex2, 1);
@@ -110,6 +125,6 @@ public class mock {
         }
         System.out.println("Shortest Path found");
         System.out.println("Length of the Shortest Path: " + shortestPathLength);
-        System.out.println("Path: " + String.join(" -> ", path));
+        System.out.println("Path: " + String.join(" ", path));
     }
 }
