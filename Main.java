@@ -1,30 +1,44 @@
 // package dip107;
 
 import java.util.Scanner;
+import java.util.Set;
 // import java.util.Random;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 
-class LabyrinthGraph {
-    private Map<Integer, List<Integer>> adjacencyList;
 
-    public LabyrinthGraph() {
-        adjacencyList = new HashMap<>();
-    }
 
-    public void addEdge(int vertex1, int vertex2) {
-        adjacencyList.computeIfAbsent(vertex1, k -> new ArrayList<>()).add(vertex2);
-        adjacencyList.computeIfAbsent(vertex2, k -> new ArrayList<>()).add(vertex1);
-    }
-
-    public Map<Integer, List<Integer>> getAdjacencyList() {
-        return adjacencyList;
-    }
-}
 
 public class Main {
+
+    public static class LabyrinthGraph {
+        public Map<Integer, Set<VertexInfo>> adjacencyList;
+
+        public LabyrinthGraph() {
+            this.adjacencyList = new HashMap<>();
+        }
+
+        public void addEdge(int v, int w, int steps) {
+            adjacencyList.computeIfAbsent(v, k -> new HashSet<>()).add(new VertexInfo(w, steps));
+        }
+
+        public static class VertexInfo {
+            public int vertex;
+            public int steps;
+
+            public VertexInfo(int vertex, int steps) {
+                this.vertex = vertex;
+                this.steps = steps;
+            }
+        }
+    }
     public static void main(String[] args) {
         int rindas, kolonnas;
 
@@ -66,7 +80,7 @@ public class Main {
         }
 
         System.out.println();
-        System.out.println("Method number (1 - brute force, 2 - ??, 3 - right hand rule): ");
+        System.out.println("Method number (1 - brute force, 2 - graph, 3 - right hand rule): ");
         choice = sc.nextInt();
         sc.close();
 
@@ -77,7 +91,7 @@ public class Main {
                 System.out.println(resultPath);
                 break;
             case 2:
-                //smth
+                findShortestPath(labirints);
                 break;
             case 3:
                 String path = followRightHandRule(labirints);
@@ -506,37 +520,90 @@ public class Main {
         return resultPath;
     }
 
-    static void createEdges(int[][] labyrinth)
-    {
+
+
+    static void findShortestPath(int[][] labyrinth) {
         int rows = labyrinth.length;
         int cols = labyrinth[0].length;
+
         LabyrinthGraph graph = new LabyrinthGraph();
+
+        // Add edges between adjacent cells
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (labyrinth[i][j] == 1) {
-                    int vertex = i * cols + j;
-
-                    if (j + 1 < cols && labyrinth[i][j + 1] == 1) {
-                        graph.addEdge(vertex, i * cols + (j + 1));
+                if (labyrinth[i][j] == 0) {
+                    if (j + 1 < cols && labyrinth[i][j + 1] == 0) {
+                        int vertex1 = i * cols + j;
+                        int vertex2 = i * cols + (j + 1);
+                        graph.addEdge(vertex1, vertex2, 1);
+                        graph.addEdge(vertex2, vertex1, 1);
                     }
-                    if (j - 1 >= 0 && labyrinth[i][j - 1] == 1) {
-                        graph.addEdge(vertex, i * cols + (j - 1));
-                    }
-                    if (i + 1 < rows && labyrinth[i + 1][j] == 1) {
-                        graph.addEdge(vertex, (i + 1) * cols + j);
-                    }
-                    if (i - 1 >= 0 && labyrinth[i - 1][j] == 1) {
-                        graph.addEdge(vertex, (i - 1) * cols + j);
+                    if (i + 1 < rows && labyrinth[i + 1][j] == 0) {
+                        int vertex1 = i * cols + j;
+                        int vertex2 = (i + 1) * cols + j;
+                        graph.addEdge(vertex1, vertex2, 1);
+                        graph.addEdge(vertex2, vertex1, 1);
                     }
                 }
             }
         }
 
-        Map<Integer, List<Integer>> adjacencyList = graph.getAdjacencyList();
-        for (Map.Entry<Integer, List<Integer>> entry : adjacencyList.entrySet()) {
-            System.out.println("Vertex " + entry.getKey() + " is connected to vertices " + entry.getValue());
+        
+        int[] distances = new int[rows * cols];
+        Arrays.fill(distances, Integer.MAX_VALUE);
+        distances[0] = 0;
+
+        int[] prevVertices = new int[rows * cols];
+        Arrays.fill(prevVertices, -1);
+
+        PriorityQueue<Integer> queue = new PriorityQueue<>(Comparator.comparingInt(vertex -> distances[vertex]));
+        queue.offer(0);
+
+        while (!queue.isEmpty()) {
+            int currentVertex = queue.poll();
+
+            for (LabyrinthGraph.VertexInfo neighborInfo : graph.adjacencyList.getOrDefault(currentVertex, Collections.emptySet())) {
+                int neighbor = neighborInfo.vertex;
+                int weight = neighborInfo.steps;
+
+                if (distances[currentVertex] + weight < distances[neighbor]) {
+                    distances[neighbor] = distances[currentVertex] + weight;
+                    prevVertices[neighbor] = currentVertex;
+                    queue.offer(neighbor);
+                }
+            }
         }
 
-        
+        printShortestPath(prevVertices, rows, cols, distances[rows * cols - 1]);
     }
+
+
+
+    
+
+    
+
+    static void printShortestPath(int[] prevVertices, int rows, int cols, int shortestPathLength) {
+        List<String> path = new ArrayList<>();
+        int currentVertex = rows * cols - 1;
+
+        while (currentVertex != -1) {
+            int i = currentVertex / cols;
+            int j = currentVertex % cols;
+            path.add("(" + i + ", " + j + ")");
+            currentVertex = prevVertices[currentVertex];
+        }
+
+        Collections.reverse(path);
+
+        if (shortestPathLength == Integer.MAX_VALUE) {
+            System.out.println("No path found");
+            return;
+        }
+        System.out.println("Shortest Path found");
+        System.out.println("Length of the Shortest Path: " + shortestPathLength);
+        System.out.println("Path: " + String.join(" ", path));
+    }
+
+    
 }
