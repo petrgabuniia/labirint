@@ -14,8 +14,6 @@ import java.util.Map;
 import java.util.PriorityQueue;
 
 
-
-
 public class Main {
 
     public static class LabyrinthGraph {
@@ -39,6 +37,8 @@ public class Main {
             }
         }
     }
+    
+    
     public static void main(String[] args) {
         int rindas, kolonnas;
 
@@ -124,6 +124,7 @@ public class Main {
         }
     }
 
+    
     public static void randomAizpilde(int[][] labyrinth)
     {
         for (int i = 0; i < labyrinth.length; i++)
@@ -155,10 +156,10 @@ public class Main {
         location[1] = 1;
 
         int[][] directions = {
-            {1, 0}, // Down // check left
-            {0, 1}, // Right // check down
-            {-1, 0}, // Up // check right
-            {0, -1}, // Left // check up
+                {1, 0}, // Down // check left
+                {0, 1}, // Right // check down
+                {-1, 0}, // Up // check right
+                {0, -1}, // Left // check up
         };
         int mode = 0;
         if (newLabyrinth[2][1] == 1){
@@ -217,7 +218,7 @@ public class Main {
                     mode = (mode + 1)%4;
                 }
             }
-            
+
         }
 
         // for (int i = 0; i < newLabyrinth.length; i++) {
@@ -231,6 +232,7 @@ public class Main {
         return path;
     }
 
+    
     public static String bruteForce(int[][] labyrinth)
     {
         String resultPath = "";
@@ -281,7 +283,25 @@ public class Main {
 
             if(lastMove.equals("left") && newLabyrinth[location[0]+1][location[1]-1+1] == 0) //left 0
             {
-                location[1] -= 1; //pa kreisi
+                for(int i = 0; i < counter; i += 2)
+                {
+                    if(location[0] == path.get(i) && location[1]-1 == path.get(i + 1)) //left was
+                    {
+                        location[0] -= 1; //uz augšu
+                        lastMove = "up";
+                        wasContinue = true;
+                        break;
+                    }
+                }
+
+                if(!wasContinue)
+                {
+                    location[1] -= 1; //pa kreisi
+                }
+                else
+                {
+                    wasContinue = false;
+                }
             }
             else if(lastMove.equals("left") && newLabyrinth[location[0]+1][location[1]-1+1] != 0) //left 1
             {
@@ -520,8 +540,7 @@ public class Main {
         return resultPath;
     }
 
-
-
+    
     static void findShortestPath(int[][] labyrinth) {
         int rows = labyrinth.length;
         int cols = labyrinth[0].length;
@@ -548,7 +567,7 @@ public class Main {
             }
         }
 
-        
+
         int[] distances = new int[rows * cols];
         Arrays.fill(distances, Integer.MAX_VALUE);
         distances[0] = 0;
@@ -576,13 +595,8 @@ public class Main {
 
         printShortestPath(prevVertices, rows, cols, distances[rows * cols - 1]);
     }
-
-
-
     
-
     
-
     static void printShortestPath(int[] prevVertices, int rows, int cols, int shortestPathLength) {
         List<String> path = new ArrayList<>();
         int currentVertex = rows * cols - 1;
@@ -604,6 +618,4 @@ public class Main {
         System.out.println("Length of the Shortest Path: " + shortestPathLength);
         System.out.println("Path: " + String.join(" ", path));
     }
-
-    
 }
