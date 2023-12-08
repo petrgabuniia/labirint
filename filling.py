@@ -13,10 +13,10 @@ def create_labyrinth_excel(labyrinth_text, output_filename='labyrinth.xlsx'):
             cell = sheet.cell(row=row_index + 1, column=col_index + 1)
             if cell_value == 0:
                 # Set black color for gates
-                cell.fill = openpyxl.styles.PatternFill(start_color='000000', end_color='000000', fill_type='solid')
+                cell.fill = openpyxl.styles.PatternFill(start_color='FFFFFF', end_color='FFFFFF', fill_type='solid')
             elif cell_value == 1:
                 # Set white color for walls
-                cell.fill = openpyxl.styles.PatternFill(start_color='FFFFFF', end_color='FFFFFF', fill_type='solid')
+                cell.fill = openpyxl.styles.PatternFill(start_color='000000', end_color='000000', fill_type='solid')
 
     workbook.save(output_filename)
 
