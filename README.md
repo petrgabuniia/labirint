@@ -7,5 +7,5 @@ Komanda:
 
 Algoritmi:
 1. Follow right hand rule
-2. Grafi
+2. Grafs
 3. Brute force
