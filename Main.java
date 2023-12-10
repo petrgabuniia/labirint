@@ -287,9 +287,12 @@ public class Main {
                 {
                     if(location[0] == path.get(i) && location[1]-1 == path.get(i + 1)) //left was
                     {
-                        location[0] -= 1; //uz augšu
-                        lastMove = "up";
-                        wasContinue = true;
+                        if(newLabyrinth[location[0]-1+1][location[1]+1] == 0) //up 0
+                        {
+                            location[0] -= 1; //uz augšu
+                            lastMove = "up";
+                            wasContinue = true;
+                        }
                         break;
                     }
                 }
